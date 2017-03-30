@@ -213,7 +213,7 @@ final public class MemoryCache<K: Hashable, E: EstimatedMemoryConsumption>: Keye
     ///   - limitStrategy: The method to be used to prevent the cache from growing too large.
     ///   - purgeStrategy: The method to be used to determine which elements to remove when the cache grows too large.
     
-    init(limitStrategy: LimitStrategy, purgeStrategy: PurgeStrategy) {
+    public init(limitStrategy: LimitStrategy, purgeStrategy: PurgeStrategy) {
         self.limitStrategy = limitStrategy
         self.purgeStrategy = purgeStrategy
     }
