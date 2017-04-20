@@ -3,7 +3,7 @@
 //  File:       Extensions.swift
 //  Project:    BRUtils
 //
-//  Version:    0.1.0
+//  Version:    0.3.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,9 @@
 //
 // History
 //
+// 0.3.0  - Moved the comparable extension to global functions.
+//        - Removed the dictionary and data extensions
+//        - Added
 // 0.1.0  - Initial release, copied from SwiftfireCore in the version 0.9.17
 // =====================================================================================================================
 
@@ -98,40 +101,37 @@ public extension Array {
     }
 }
 
-public extension Data {
+
+extension NSNumber {
     
     
-    /// Removes the given range from the data while the data is interpreted as a UInt8 area.
+    /// Returns a number, first tries to convert the string to a bool, then an Int and lastly a double.
     
-    public mutating func remove(range: Range<Int>) {
-        var dummy: UInt8 = 0
-        let empty = UnsafeBufferPointer<UInt8>(start: &dummy, count: 0)
-        self.replaceSubrange(range, with: empty)
+    static func factory(boolIntDouble: String) -> NSNumber? {
+        let str = boolIntDouble.trimmingCharacters(in: CharacterSet.whitespaces)
+        if let b = Bool(lettersOrDigits: str) {
+            return NSNumber(value: b)
+        }
+        return factory(intDouble: str)
     }
-    
-    
-    /// Removes all data fro the object.
-    
-    public mutating func removeAll() {
-        var dummy: UInt8 = 0
-        let empty = UnsafeBufferPointer<UInt8>(start: &dummy, count: 0)
-        self.replaceSubrange(Range(uncheckedBounds: (lower: 0, upper: self.count - 1)), with: empty)
+
+
+    /// Returns a number, first tries to convert the string an Int and then a double.
+
+    static func factory(intDouble: String) -> NSNumber? {
+        let str = intDouble.trimmingCharacters(in: CharacterSet.whitespaces)
+        if let i = Int(str) {
+            if str == i.description {
+                return NSNumber(value: i)
+            }
+        }
+        if let d = Double(str) {
+            return NSNumber(value: d)
+        }
+        return nil
     }
 }
 
-public extension Dictionary {
-    
-    
-    /// Returns the values in the dictionary in an array.
-    
-    public func arrayValue() -> Array<Value> {
-        var elements: Array<Value> = []
-        for (_, e) in self {
-            elements.append(e)
-        }
-        return elements
-    }
-}
 
 public extension Date {
     
@@ -233,51 +233,5 @@ public extension Date {
     
     public static func fromUnixTime(_ value: Int64) -> Date {
         return Date(timeIntervalSince1970: Double(value))
-    }
-}
-
-public extension Comparable {
-    
-    
-    /// Returns a tuple with the input values sorted as minimum and maximum value.
-    
-    func minmax<T: Comparable>(_ first: T, second: T) -> (min: T, max: T) {
-        let rmin = min(first, second)
-        let rmax = max(first, second)
-        return (rmin, rmax)
-    }
-    
-    
-    /// Returns a tuple with the input values sorted as minimum and maximum value. The minimum value will be at least as high as the lowLimit and the maximum value will be no higher than the highLimit.
-    
-    func clippedMinMax<T: Comparable>(lowLimit: T, first: T, second: T, highLimit: T) -> (min: T, max: T) {
-        let clippedFirst = max(lowLimit, min(highLimit, first))
-        let clippedSecond = min(highLimit, max(lowLimit, second))
-        return minmax(clippedFirst, second: clippedSecond)
-    }
-    
-    
-    /// Does not return a value outside the high and low limits
-    
-    func clippedValue<T: Comparable>(lowLimit: T, value: T, highLimit: T) -> T {
-        if value < lowLimit { return lowLimit }
-        if value > highLimit { return highLimit }
-        return value
-    }
-    
-    
-    /// Returns a value lower or equal to max
-    
-    func limitToMax<T: Comparable>(_ value: T, max: T) -> T {
-        if value > max { return max }
-        return value
-    }
-    
-    
-    /// Returns a value higher or equal to min
-    
-    func limitToMin<T: Comparable>(_ value: T, min: T) -> T {
-        if value < min { return min }
-        return value
     }
 }
