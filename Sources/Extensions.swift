@@ -50,7 +50,7 @@
 //
 // 0.3.0  - Moved the comparable extension to global functions.
 //        - Removed the dictionary and data extensions
-//        - Added
+//        - Added NSNumber extension
 // 0.1.0  - Initial release, copied from SwiftfireCore in the version 0.9.17
 // =====================================================================================================================
 
@@ -102,12 +102,12 @@ public extension Array {
 }
 
 
-extension NSNumber {
+public extension NSNumber {
     
     
     /// Returns a number, first tries to convert the string to a bool, then an Int and lastly a double.
     
-    static func factory(boolIntDouble: String) -> NSNumber? {
+    public static func factory(boolIntDouble: String) -> NSNumber? {
         let str = boolIntDouble.trimmingCharacters(in: CharacterSet.whitespaces)
         if let b = Bool(lettersOrDigits: str) {
             return NSNumber(value: b)
@@ -118,7 +118,7 @@ extension NSNumber {
 
     /// Returns a number, first tries to convert the string an Int and then a double.
 
-    static func factory(intDouble: String) -> NSNumber? {
+    public static func factory(intDouble: String) -> NSNumber? {
         let str = intDouble.trimmingCharacters(in: CharacterSet.whitespaces)
         if let i = Int(str) {
             if str == i.description {
