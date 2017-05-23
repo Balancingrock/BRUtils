@@ -3,7 +3,7 @@
 //  File:       Extensions.swift
 //  Project:    BRUtils
 //
-//  Version:    0.3.0
+//  Version:    0.4.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.4.0  - Added Int extensions for isEven, isUneven, isMultiple(of)
 // 0.3.0  - Moved the comparable extension to global functions.
 //        - Removed the dictionary and data extensions
 //        - Added NSNumber extension
@@ -130,6 +131,13 @@ public extension NSNumber {
         }
         return nil
     }
+}
+
+
+extension Int {
+    var isEven: Bool { return self % 2 == 0 }
+    var isUneven: Bool { return self % 2 == 1 }
+    func isMultiple(of i: Int) -> Bool { return self % i == 0 }
 }
 
 
