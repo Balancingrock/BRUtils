@@ -3,7 +3,7 @@
 //  File:       FunctionResult.swift
 //  Project:    BRUtils
 //
-//  Version:    0.1.0
+//  Version:    0.4.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.4.0 - Added '+' Result<Bool>
 // 0.1.0 - Initial release
 //
 // =====================================================================================================================
@@ -77,6 +78,26 @@ public enum Result<T> {
     // The operation was sucessfull. The result is contained.
     
     case success(T)
+}
+
+
+/// Add to Result<Bool> types together.
+///
+/// - Returns: An error if either one of the input parameters contains an error. If both contain an error, the messages are combined and separated by a newline. Returns .success if both parameters contain .success with the content set to the 'and' of both associated values.
+
+func + (lhs: Result<Bool>, rhs: Result<Bool>) -> Result<Bool> {
+    switch lhs {
+    case .error(let lmessage):
+        switch rhs {
+        case .error(let rmessage): return Result<Bool>.error(message: "\(lmessage)\n\(rmessage)")
+        case .success: return Result<Bool>.error(message: lmessage)
+        }
+    case .success(let lbool):
+        switch rhs {
+        case .error(let rmessage): return Result<Bool>.error(message: rmessage)
+        case .success(let rbool): return Result<Bool>.success(lbool && rbool)
+        }
+    }
 }
 
 
