@@ -12,7 +12,16 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.3.0 (Current)
+#### 0.5.0 (Current)
+
+- Added time related utilities
+
+#### 0.4.0
+
+- Added Int extension with 'isEven', 'isUneven', 'isMultiple(of)'
+- Added + operator for 'Result' types.
+
+#### 0.3.0
 
 - Removed unnecessary extensions
 - Added GlobalFunctions
