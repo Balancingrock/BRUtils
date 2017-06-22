@@ -3,7 +3,7 @@
 //  File:       Extensions.swift
 //  Project:    BRUtils
 //
-//  Version:    0.4.0
+//  Version:    0.6.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.6.0  - Added range and clamp as an Array extension.
 // 0.4.0  - Added Int extensions for isEven, isUneven, isMultiple(of)
 // 0.3.0  - Moved the comparable extension to global functions.
 //        - Removed the dictionary and data extensions
@@ -99,6 +100,22 @@ public extension Array {
             }
         }
         return nil
+    }
+    
+    
+    /// - Returns: The range for this array
+    
+    public var range: Range<Array.Index> {
+        return Range.init(uncheckedBounds: (lower: self.startIndex, upper: self.endIndex))
+    }
+    
+    
+    /// - Returns: The given index clamped to either self.startIndex or self.endIndex.
+    
+    public func clamp(_ index: Int) -> Int {
+        if index < self.startIndex { return self.startIndex }
+        if index > self.endIndex { return self.endIndex }
+        return index
     }
 }
 
