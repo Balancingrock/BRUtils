@@ -3,7 +3,7 @@
 //  File:       TimeRelated.swift
 //  Project:    BRUtils
 //
-//  Version:    0.5.0
+//  Version:    0.6.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,7 +48,7 @@
 //
 // History
 //
-// 0.5.0 - Initial release
+// 0.6.0 - Initial release
 //
 // =====================================================================================================================
 // Description
@@ -61,6 +61,8 @@
 import Foundation
 
 
+/// Extends the Darwin defined timespec type.
+
 public extension timespec {
 
     /// Create a timespec (nsec resolution) from a TimeInterval.
@@ -71,6 +73,9 @@ public extension timespec {
         self.init(tv_sec: sec, tv_nsec: nsec)
     }
 }
+
+
+/// Extends the Darwin defined timeval type.
 
 public extension timeval {
     
@@ -83,6 +88,9 @@ public extension timeval {
     }
 }
 
+
+// Extends the foundation defined TimeInterval type.
+
 public extension TimeInterval {
     
     /// Create a TimeInterval from a timespec (nsec resolution)
@@ -90,11 +98,8 @@ public extension TimeInterval {
     public init(_ spec: timespec) {
         self.init(Double(spec.tv_sec) + (Double(spec.tv_nsec) / Double(NSEC_PER_SEC)))
     }
-}
-
-public extension TimeInterval {
     
-    /// Create a TimeInterval from a timespec (usec resolution)
+    /// Create a TimeInterval from a timeval (usec resolution)
 
     public init(_ val: timeval) {
         self.init(Double(val.tv_sec) + (Double(val.tv_usec) / Double(USEC_PER_SEC)))
