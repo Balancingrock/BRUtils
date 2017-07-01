@@ -160,6 +160,17 @@ class BRUtilsTests: XCTestCase {
             ("testClampedDouble_Float", testClampedDouble_Float),
             ("testClampedFloat80_Float", testClampedFloat80_Float),
             ("testClampedNSNumber_Float", testClampedNSNumber_Float),
+            
+            ("testRawBytes_UInt8", testRawBytes_UInt8),
+            ("testRawBytes_Int8", testRawBytes_Int8),
+            ("testRawBytes_UInt16", testRawBytes_UInt16),
+            ("testRawBytes_Int16", testRawBytes_Int16),
+            ("testRawBytes_UInt32", testRawBytes_UInt32),
+            ("testRawBytes_Int32", testRawBytes_Int32),
+            ("testRawBytes_UInt64", testRawBytes_UInt64),
+            ("testRawBytes_Int64", testRawBytes_Int64),
+            ("testRawBytes_Float", testRawBytes_Float),
+            ("testRawBytes_Double", testRawBytes_Double),
         ]
     }
     
@@ -310,6 +321,17 @@ class BRUtilsTests: XCTestCase {
             ("testClampedDouble_Float", testClampedDouble_Float),
             ("testClampedFloat80_Float", testClampedFloat80_Float),
             ("testClampedNSNumber_Float", testClampedNSNumber_Float),
+    
+            ("testRawBytes_UInt8", testRawBytes_UInt8),
+            ("testRawBytes_Int8", testRawBytes_Int8),
+            ("testRawBytes_UInt16", testRawBytes_UInt16),
+            ("testRawBytes_Int16", testRawBytes_Int16),
+            ("testRawBytes_UInt32", testRawBytes_UInt32),
+            ("testRawBytes_Int32", testRawBytes_Int32),
+            ("testRawBytes_UInt64", testRawBytes_UInt64),
+            ("testRawBytes_Int64", testRawBytes_Int64),
+            ("testRawBytes_Float", testRawBytes_Float),
+            ("testRawBytes_Double", testRawBytes_Double),
         ]
     }
 
