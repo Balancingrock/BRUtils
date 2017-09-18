@@ -365,6 +365,14 @@ public extension Data {
         self.append(contentsOf: item.rawBytes)
     }
     
+    public mutating func removeFirstBool() -> Bool? {
+        guard self.count > 0 else { return nil }
+        let candidate = removeFirst()
+        if candidate == 0 { return false }
+        if candidate == 1 { return true }
+        return nil
+    }
+    
     public mutating func removeFirstInt8() -> Int8? {
         guard self.count > 0 else { return nil }
         return Int8(bitPattern: removeFirst())
