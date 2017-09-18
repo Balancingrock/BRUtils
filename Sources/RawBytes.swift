@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.9.0 - Added data member to RawBytes protocol
 // 0.8.0 - Initial release
 //
 // =====================================================================================================================
@@ -74,6 +75,18 @@ public protocol RawBytes {
     /// - Returns: Nil if not enough bytes are present or when the bytes are not compatible. Otherwise a properly constructed object.
     
     init?(rawBytes: inout Array<UInt8>)
+    
+    
+    /// Represent the raw bytes in a data type.
+    ///
+    /// Note: There is a default implementation for this member.
+    
+    var data: Data { get }
+}
+
+extension RawBytes {
+    
+    public var data: Data { return Data(bytes: self.rawBytes) }
 }
 
 extension Bool: RawBytes {
