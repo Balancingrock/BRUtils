@@ -3,7 +3,7 @@
 //  File:       Extensions.swift
 //  Project:    BRUtils
 //
-//  Version:    0.6.0
+//  Version:    0.9.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.9.0  - Added UnsafeRawPointer type extractions
 // 0.6.0  - Added range and clamp as an Array extension.
 // 0.4.0  - Added Int extensions for isEven, isUneven, isMultiple(of)
 // 0.3.0  - Moved the comparable extension to global functions.
@@ -258,5 +259,97 @@ public extension Date {
     
     public static func fromUnixTime(_ value: Int64) -> Date {
         return Date(timeIntervalSince1970: Double(value))
+    }
+}
+
+
+// Exstending pointer access to typed values
+
+public extension UnsafeRawPointer {
+    
+    mutating func advanceBool() -> Bool {
+        let val = self.advanceUInt8()
+        if val == 0 { return false }
+        return true
+    }
+    
+    mutating func advanceUInt8() -> UInt8 {
+        let val = self.assumingMemoryBound(to: UInt8.self).pointee
+        self = self.advanced(by: 1)
+        return val
+    }
+    
+    mutating func advanceInt8() -> Int8 {
+        let val = self.assumingMemoryBound(to: Int8.self).pointee
+        self = self.advanced(by: 1)
+        return val
+    }
+    
+    mutating func advanceUInt16(endianness: Endianness) -> UInt16 {
+        var val = self.assumingMemoryBound(to: UInt16.self).pointee
+        self = self.advanced(by: 2)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceInt16(endianness: Endianness) -> Int16 {
+        var val = self.assumingMemoryBound(to: Int16.self).pointee
+        self = self.advanced(by: 2)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceUInt32(endianness: Endianness) -> UInt32 {
+        var val = self.assumingMemoryBound(to: UInt32.self).pointee
+        self = self.advanced(by: 4)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceInt32(endianness: Endianness) -> Int32 {
+        var val = self.assumingMemoryBound(to: Int32.self).pointee
+        self = self.advanced(by: 4)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceUInt64(endianness: Endianness) -> UInt64 {
+        var val = self.assumingMemoryBound(to: UInt64.self).pointee
+        self = self.advanced(by: 8)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceInt64(endianness: Endianness) -> Int64 {
+        var val = self.assumingMemoryBound(to: Int64.self).pointee
+        self = self.advanced(by: 8)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return val
+    }
+    
+    mutating func advanceFloat32(endianness: Endianness) -> Float32 {
+        var val = self.assumingMemoryBound(to: UInt32.self).pointee
+        self = self.advanced(by: 4)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return Float32(bitPattern: val)
+    }
+    
+    mutating func advanceFloat64(endianness: Endianness) -> Float64 {
+        var val = self.assumingMemoryBound(to: UInt64.self).pointee
+        self = self.advanced(by: 8)
+        if endianness != machineEndianness { val = val.byteSwapped }
+        return Float64(bitPattern: val)
+    }
+    
+    mutating func advanceData(count: Int) -> Data {
+        let data = Data(bytes: self, count: count)
+        self = self.advanced(by: count)
+        return data
+    }
+    
+    mutating func advanceUtf8(count: Int) -> String? {
+        let data = Data(bytes: self, count: count)
+        self = self.advanced(by: count)
+        return String(data: data, encoding: .utf8)
     }
 }
