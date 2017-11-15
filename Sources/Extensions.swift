@@ -355,7 +355,7 @@ public extension UnsafeRawPointer {
     }
 }
 
-extension Data {
+public extension Data {
     
     /// Calculates a 16 bit CRC over the content of self.
     ///
@@ -363,7 +363,7 @@ extension Data {
     ///   - initialValue: Use 0 for an ARC CRC value (default) or 0xFFFF for the MODBUS CRC.
     ///   - polynomial: The polynomial to be used, default is 0xA001 (= 0x8005 reversed).
     
-    func crc16(initialValue: UInt16 = 0, polynomial: UInt16 = 0xA001) -> UInt16 {
+    public func crc16(initialValue: UInt16 = 0, polynomial: UInt16 = 0xA001) -> UInt16 {
         if isEmpty { return initialValue }
         var accumulator: UInt16 = initialValue
         for byte in self {
