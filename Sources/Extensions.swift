@@ -49,6 +49,7 @@
 // History
 //
 // 0.9.0  - Added UnsafeRawPointer type extractions
+//        - Added crc16 calculation to Data
 // 0.6.0  - Added range and clamp as an Array extension.
 // 0.4.0  - Added Int extensions for isEven, isUneven, isMultiple(of)
 // 0.3.0  - Moved the comparable extension to global functions.
@@ -351,5 +352,32 @@ public extension UnsafeRawPointer {
         let data = Data(bytes: self, count: count)
         self = self.advanced(by: count)
         return String(data: data, encoding: .utf8)
+    }
+}
+
+extension Data {
+    
+    /// Calculates a 16 bit CRC over the content of self.
+    ///
+    /// - Parameters:
+    ///   - initialValue: Use 0 for an ARC CRC value (default) or 0xFFFF for the MODBUS CRC.
+    ///   - polynomial: The polynomial to be used, default is 0xA001 (= 0x8005 reversed).
+    
+    func crc16(initialValue: UInt16 = 0, polynomial: UInt16 = 0xA001) -> UInt16 {
+        if isEmpty { return initialValue }
+        var accumulator: UInt16 = initialValue
+        for byte in self {
+            var tempByte = UInt16(byte)
+            for _ in 0 ..< 8 {
+                let temp1 = accumulator & 0x0001
+                accumulator = accumulator >> 1
+                let temp2 = tempByte & 0x0001
+                tempByte = tempByte >> 1
+                if (temp1 ^ temp2) == 1 {
+                    accumulator = accumulator ^ polynomial
+                }
+            }
+        }
+        return accumulator
     }
 }
