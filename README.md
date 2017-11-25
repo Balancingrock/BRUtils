@@ -12,7 +12,40 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.5.0 (Current)
+#### 0.9.0 (Current)
+
+- Added UnsafeRawPointer based typed extractions
+- Added crc16 calculation to Data
+- Added Endianness and Endianness support to RawBytes
+
+#### 0.8.0
+
+- Added the RawBytes protocol to allow easy encoding/decoding into a foundation Data object.
+
+#### 0.7.0
+
+- Clamped functions have been added to: Int, UInt, Int8, UInt8, Int16, UInt16, Int32, UInt32, Int64, UInt64, and Float.
+
+#### 0.6.0
+
+- Added new file: TimeRelated.swift
+
+- Added extensions:
+	- Array
+		- range: Returns the a range from startIndex to endIndex
+		- clamp: Clamps ensures that the value of an index is not outside the range startIndex ... endIndex
+	- timespec
+		- init(TimeInterval)
+	- timeval
+		- init(TimeInterval)
+	- TimeInterval
+		- init(timespec)
+		- init(timeval)
+
+- Added new function:
+	- public sleep(TimeInterval) -> TimeInterval // Allows sub-second resolution for the sleep.
+	
+#### 0.5.0
 
 - Added time related utilities
 
