@@ -470,7 +470,7 @@ public extension Data {
         return accumulator
     }
     
-    func crc32(initialValue: UInt32) -> UInt32 {
+    func crc32(initialValue: UInt32 = 0) -> UInt32 {
         let value = reduce(initialValue ^ 0xffffffff, { (value, byte) -> UInt32 in
             return crc32Table[Int(UInt8(value & 0xff) ^ byte)] ^ (value >> 8)
         })
