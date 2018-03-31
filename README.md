@@ -12,7 +12,11 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.9.0 (Current)
+#### 0.10.0 (Current)
+
+- Added crc32 calculation to Data
+
+#### 0.9.0
 
 - Added UnsafeRawPointer based typed extractions
 - Added crc16 calculation to Data
