@@ -12,7 +12,11 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.10.0 (Current)
+#### 0.11.0 (Current)
+
+- Swift 4 migration
+
+#### 0.10.0
 
 - Added crc32 calculation to Data
 

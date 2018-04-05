@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.11.0 - Swift 4 migration: changed implementation of removeFirstUtf8CString because Data implemenation changed.
 // 0.9.0 - Endianness support
 //         Added bigData and littleData member to RawBytes protocol
 //         Renamed rawBytes to bigBytes and added littleBytes
@@ -806,9 +807,9 @@ public extension Data {
 
     public mutating func removeFirstUtf8CString() -> String? {
         if let endOfStringIndex = index(of: 0x00) {
-            let stringData = subdata(in: Range(uncheckedBounds: (lower: 0, upper: endOfStringIndex)))
+            let stringData = subdata(in: self.startIndex ..< endOfStringIndex)
             if let str = String(data: stringData, encoding: .utf8) {
-                removeFirst(endOfStringIndex + 1)
+                removeFirst(endOfStringIndex - self.startIndex + 1)
                 return str
             } else {
                 return nil
