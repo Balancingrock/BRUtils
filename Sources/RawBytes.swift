@@ -3,7 +3,7 @@
 //  File:       RawBytes.swift
 //  Project:    BRUtils
 //
-//  Version:    0.8.0
+//  Version:    0.11.1
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.11.1 - Compilation speed improvements
 // 0.11.0 - Swift 4 migration: changed implementation of removeFirstUtf8CString because Data implemenation changed.
 // 0.9.0 - Endianness support
 //         Added bigData and littleData member to RawBytes protocol
@@ -195,15 +196,15 @@ extension UInt16: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 2 { return nil }
         let hb = UInt16(littleBytes.removeFirst())
-        let lb = UInt16(littleBytes.removeFirst())
-        self = (lb << 8) | hb
+        let lb = UInt16(littleBytes.removeFirst()) << 8
+        self = lb | hb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 2 { return nil }
-        let hb = UInt16(bigBytes.removeFirst())
+        let hb = UInt16(bigBytes.removeFirst()) << 8
         let lb = UInt16(bigBytes.removeFirst())
-        self = (hb << 8) | lb
+        self = hb | lb
     }
 }
 
@@ -224,15 +225,15 @@ extension Int16: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 2 { return nil }
         let hb = Int16(littleBytes.removeFirst())
-        let lb = Int16(littleBytes.removeFirst())
-        self = (lb << 8) | hb
+        let lb = Int16(littleBytes.removeFirst()) << 8
+        self = lb | hb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 2 { return nil }
-        let hb = Int16(bigBytes.removeFirst())
+        let hb = Int16(bigBytes.removeFirst()) << 8
         let lb = Int16(bigBytes.removeFirst())
-        self = (hb << 8) | lb
+        self = hb | lb
     }
 }
 
@@ -257,19 +258,19 @@ extension UInt32: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 4 { return nil }
         let hhb = UInt32(littleBytes.removeFirst())
-        let hlb = UInt32(littleBytes.removeFirst())
-        let lhb = UInt32(littleBytes.removeFirst())
-        let llb = UInt32(littleBytes.removeFirst())
-        self = (llb << 24) | (lhb << 16) | (hlb << 8) | hhb
+        let hlb = UInt32(littleBytes.removeFirst()) << 8
+        let lhb = UInt32(littleBytes.removeFirst()) << 16
+        let llb = UInt32(littleBytes.removeFirst()) << 24
+        self = llb | lhb | hlb | hhb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 4 { return nil }
-        let hhb = UInt32(bigBytes.removeFirst())
-        let hlb = UInt32(bigBytes.removeFirst())
-        let lhb = UInt32(bigBytes.removeFirst())
+        let hhb = UInt32(bigBytes.removeFirst()) << 24
+        let hlb = UInt32(bigBytes.removeFirst()) << 16
+        let lhb = UInt32(bigBytes.removeFirst()) << 8
         let llb = UInt32(bigBytes.removeFirst())
-        self = (hhb << 24) | (hlb << 16) | (lhb << 8) | llb
+        self = hhb | hlb | lhb | llb
     }
 }
 
@@ -294,19 +295,19 @@ extension Int32: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 4 { return nil }
         let hhb = Int32(littleBytes.removeFirst())
-        let hlb = Int32(littleBytes.removeFirst())
-        let lhb = Int32(littleBytes.removeFirst())
-        let llb = Int32(littleBytes.removeFirst())
-        self = (llb << 24) | (lhb << 16) | (hlb << 8) | hhb
+        let hlb = Int32(littleBytes.removeFirst()) << 8
+        let lhb = Int32(littleBytes.removeFirst()) << 16
+        let llb = Int32(littleBytes.removeFirst()) << 24
+        self = llb | lhb | hlb | hhb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 4 { return nil }
-        let hhb = Int32(bigBytes.removeFirst())
-        let hlb = Int32(bigBytes.removeFirst())
-        let lhb = Int32(bigBytes.removeFirst())
+        let hhb = Int32(bigBytes.removeFirst()) << 24
+        let hlb = Int32(bigBytes.removeFirst()) << 16
+        let lhb = Int32(bigBytes.removeFirst()) << 8
         let llb = Int32(bigBytes.removeFirst())
-        self = (hhb << 24) | (hlb << 16) | (lhb << 8) | llb
+        self = hhb | hlb | lhb | llb
     }
 }
 
@@ -339,27 +340,27 @@ extension UInt64: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 8 { return nil }
         let hhhb = UInt64(littleBytes.removeFirst())
-        let hhlb = UInt64(littleBytes.removeFirst())
-        let hlhb = UInt64(littleBytes.removeFirst())
-        let hllb = UInt64(littleBytes.removeFirst())
-        let lhhb = UInt64(littleBytes.removeFirst())
-        let lhlb = UInt64(littleBytes.removeFirst())
-        let llhb = UInt64(littleBytes.removeFirst())
-        let lllb = UInt64(littleBytes.removeFirst())
-        self = (lllb << 56) | (llhb << 48) | (lhlb << 40) | (lhhb << 32) | (hllb << 24) | (hlhb << 16) | (hhlb << 8) | hhhb
+        let hhlb = UInt64(littleBytes.removeFirst()) << 8
+        let hlhb = UInt64(littleBytes.removeFirst()) << 16
+        let hllb = UInt64(littleBytes.removeFirst()) << 24
+        let lhhb = UInt64(littleBytes.removeFirst()) << 32
+        let lhlb = UInt64(littleBytes.removeFirst()) << 40
+        let llhb = UInt64(littleBytes.removeFirst()) << 48
+        let lllb = UInt64(littleBytes.removeFirst()) << 56
+        self = lllb | llhb | lhlb | lhhb | hllb | hlhb | hhlb | hhhb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 8 { return nil }
-        let hhhb = UInt64(bigBytes.removeFirst())
-        let hhlb = UInt64(bigBytes.removeFirst())
-        let hlhb = UInt64(bigBytes.removeFirst())
-        let hllb = UInt64(bigBytes.removeFirst())
-        let lhhb = UInt64(bigBytes.removeFirst())
-        let lhlb = UInt64(bigBytes.removeFirst())
-        let llhb = UInt64(bigBytes.removeFirst())
+        let hhhb = UInt64(bigBytes.removeFirst()) << 56
+        let hhlb = UInt64(bigBytes.removeFirst()) << 48
+        let hlhb = UInt64(bigBytes.removeFirst()) << 40
+        let hllb = UInt64(bigBytes.removeFirst()) << 32
+        let lhhb = UInt64(bigBytes.removeFirst()) << 24
+        let lhlb = UInt64(bigBytes.removeFirst()) << 16
+        let llhb = UInt64(bigBytes.removeFirst()) << 8
         let lllb = UInt64(bigBytes.removeFirst())
-        self = (hhhb << 56) | (hhlb << 48) | (hlhb << 40) | (hllb << 32) | (lhhb << 24) | (lhlb << 16) | (llhb << 8) | lllb
+        self = hhhb | hhlb | hlhb | hllb | lhhb | lhlb | llhb | lllb
     }
 }
 
@@ -392,27 +393,27 @@ extension Int64: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 8 { return nil }
         let hhhb = Int64(littleBytes.removeFirst())
-        let hhlb = Int64(littleBytes.removeFirst())
-        let hlhb = Int64(littleBytes.removeFirst())
-        let hllb = Int64(littleBytes.removeFirst())
-        let lhhb = Int64(littleBytes.removeFirst())
-        let lhlb = Int64(littleBytes.removeFirst())
-        let llhb = Int64(littleBytes.removeFirst())
-        let lllb = Int64(littleBytes.removeFirst())
-        self = (lllb << 56) | (llhb << 48) | (lhlb << 40) | (lhhb << 32) | (hllb << 24) | (hlhb << 16) | (hhlb << 8) | hhhb
+        let hhlb = Int64(littleBytes.removeFirst()) << 8
+        let hlhb = Int64(littleBytes.removeFirst()) << 16
+        let hllb = Int64(littleBytes.removeFirst()) << 24
+        let lhhb = Int64(littleBytes.removeFirst()) << 32
+        let lhlb = Int64(littleBytes.removeFirst()) << 40
+        let llhb = Int64(littleBytes.removeFirst()) << 48
+        let lllb = Int64(littleBytes.removeFirst()) << 56
+        self = lllb | llhb | lhlb | lhhb | hllb | hlhb | hhlb | hhhb
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 8 { return nil }
-        let hhhb = Int64(bigBytes.removeFirst())
-        let hhlb = Int64(bigBytes.removeFirst())
-        let hlhb = Int64(bigBytes.removeFirst())
-        let hllb = Int64(bigBytes.removeFirst())
-        let lhhb = Int64(bigBytes.removeFirst())
-        let lhlb = Int64(bigBytes.removeFirst())
-        let llhb = Int64(bigBytes.removeFirst())
+        let hhhb = Int64(bigBytes.removeFirst()) << 56
+        let hhlb = Int64(bigBytes.removeFirst()) << 48
+        let hlhb = Int64(bigBytes.removeFirst()) << 40
+        let hllb = Int64(bigBytes.removeFirst()) << 32
+        let lhhb = Int64(bigBytes.removeFirst()) << 24
+        let lhlb = Int64(bigBytes.removeFirst()) << 16
+        let llhb = Int64(bigBytes.removeFirst()) << 8
         let lllb = Int64(bigBytes.removeFirst())
-        self = (hhhb << 56) | (hhlb << 48) | (hlhb << 40) | (hllb << 32) | (lhhb << 24) | (lhlb << 16) | (llhb << 8) | lllb
+        self = hhhb | hhlb | hlhb | hllb | lhhb | lhlb | llhb | lllb
     }
 }
 
@@ -560,27 +561,27 @@ extension Double: RawBytes {
     public init?(littleBytes: inout Array<UInt8>) {
         if littleBytes.count < 8 { return nil }
         let hhhb = UInt64(littleBytes.removeFirst())
-        let hhlb = UInt64(littleBytes.removeFirst())
-        let hlhb = UInt64(littleBytes.removeFirst())
-        let hllb = UInt64(littleBytes.removeFirst())
-        let lhhb = UInt64(littleBytes.removeFirst())
-        let lhlb = UInt64(littleBytes.removeFirst())
-        let llhb = UInt64(littleBytes.removeFirst())
-        let lllb = UInt64(littleBytes.removeFirst())
-        self = Double(bitPattern: (lllb << 56) | (llhb << 48) | (lhlb << 40) | (lhhb << 32) | (hllb << 24) | (hlhb << 16) | (hhlb << 8) | hhhb)
+        let hhlb = UInt64(littleBytes.removeFirst()) << 8
+        let hlhb = UInt64(littleBytes.removeFirst()) << 16
+        let hllb = UInt64(littleBytes.removeFirst()) << 24
+        let lhhb = UInt64(littleBytes.removeFirst()) << 32
+        let lhlb = UInt64(littleBytes.removeFirst()) << 40
+        let llhb = UInt64(littleBytes.removeFirst()) << 48
+        let lllb = UInt64(littleBytes.removeFirst()) << 56
+        self = Double(bitPattern: lllb | llhb | lhlb | lhhb | hllb | hlhb | hhlb | hhhb)
     }
 
     public init?(bigBytes: inout Array<UInt8>) {
         if bigBytes.count < 8 { return nil }
-        let hhhb = UInt64(bigBytes.removeFirst())
-        let hhlb = UInt64(bigBytes.removeFirst())
-        let hlhb = UInt64(bigBytes.removeFirst())
-        let hllb = UInt64(bigBytes.removeFirst())
-        let lhhb = UInt64(bigBytes.removeFirst())
-        let lhlb = UInt64(bigBytes.removeFirst())
-        let llhb = UInt64(bigBytes.removeFirst())
+        let hhhb = UInt64(bigBytes.removeFirst()) << 56
+        let hhlb = UInt64(bigBytes.removeFirst()) << 48
+        let hlhb = UInt64(bigBytes.removeFirst()) << 40
+        let hllb = UInt64(bigBytes.removeFirst()) << 32
+        let lhhb = UInt64(bigBytes.removeFirst()) << 24
+        let lhlb = UInt64(bigBytes.removeFirst()) << 16
+        let llhb = UInt64(bigBytes.removeFirst()) << 8
         let lllb = UInt64(bigBytes.removeFirst())
-        self = Double(bitPattern: (hhhb << 56) | (hhlb << 48) | (hlhb << 40) | (hllb << 32) | (lhhb << 24) | (lhlb << 16) | (llhb << 8) | lllb)
+        self = Double(bitPattern: hhhb | hhlb | hlhb | hllb | lhhb | lhlb | llhb | lllb)
     }
 }
 
@@ -643,165 +644,165 @@ public extension Data {
     
     public mutating func removeFirstLittleInt16() -> Int16? {
         guard count > 1 else { return nil }
-        let l = removeFirst()
-        let h = removeFirst()
-        return (Int16(h) << 8) | Int16(l)
+        let l = Int16(removeFirst())
+        let h = Int16(removeFirst()) << 8
+        return h | l
     }
     
     public mutating func removeFirstBigInt16() -> Int16? {
         guard count > 1 else { return nil }
-        let h = removeFirst()
-        let l = removeFirst()
-        return (Int16(h) << 8) | Int16(l)
+        let h = Int16(removeFirst()) << 8
+        let l = Int16(removeFirst())
+        return h | l
     }
     
     public mutating func removeFirstLittleUInt16() -> UInt16? {
         guard count > 1 else { return nil }
-        let l = removeFirst()
-        let h = removeFirst()
-        return (UInt16(h) << 8) | UInt16(l)
+        let l = UInt16(removeFirst())
+        let h = UInt16(removeFirst()) << 8
+        return h | l
     }
 
     public mutating func removeFirstBigUInt16() -> UInt16? {
         guard count > 1 else { return nil }
-        let h = removeFirst()
-        let l = removeFirst()
-        return (UInt16(h) << 8) | UInt16(l)
+        let h = UInt16(removeFirst()) << 8
+        let l = UInt16(removeFirst())
+        return h | l
     }
     
     public mutating func removeFirstLittleInt32() -> Int32? {
         guard count > 3 else { return nil }
-        let ll = removeFirst()
-        let lh = removeFirst()
-        let hl = removeFirst()
-        let hh = removeFirst()
-        return (Int32(hh) << 24) | (Int32(hl) << 16) | (Int32(lh) << 8) | Int32(ll)
+        let ll = Int32(removeFirst())
+        let lh = Int32(removeFirst()) << 8
+        let hl = Int32(removeFirst()) << 16
+        let hh = Int32(removeFirst()) << 24
+        return hh | hl | lh | ll
     }
     
     public mutating func removeFirstBigInt32() -> Int32? {
         guard count > 3 else { return nil }
-        let hh = removeFirst()
-        let hl = removeFirst()
-        let lh = removeFirst()
-        let ll = removeFirst()
-        return (Int32(hh) << 24) | (Int32(hl) << 16) | (Int32(lh) << 8) | Int32(ll)
+        let hh = Int32(removeFirst()) << 24
+        let hl = Int32(removeFirst()) << 16
+        let lh = Int32(removeFirst()) << 8
+        let ll = Int32(removeFirst())
+        return hh | hl | lh | ll
     }
     
     public mutating func removeFirstLittleUInt32() -> UInt32? {
         guard count > 3 else { return nil }
-        let ll = removeFirst()
-        let lh = removeFirst()
-        let hl = removeFirst()
-        let hh = removeFirst()
-        return (UInt32(hh) << 24) | (UInt32(hl) << 16) | (UInt32(lh) << 8) | UInt32(ll)
+        let ll = UInt32(removeFirst())
+        let lh = UInt32(removeFirst()) << 8
+        let hl = UInt32(removeFirst()) << 16
+        let hh = UInt32(removeFirst()) << 24
+        return hh | hl | lh | ll
     }
 
     public mutating func removeFirstBigUInt32() -> UInt32? {
         guard count > 3 else { return nil }
-        let hh = removeFirst()
-        let hl = removeFirst()
-        let lh = removeFirst()
-        let ll = removeFirst()
-        return (UInt32(hh) << 24) | (UInt32(hl) << 16) | (UInt32(lh) << 8) | UInt32(ll)
+        let hh = UInt32(removeFirst()) << 24
+        let hl = UInt32(removeFirst()) << 16
+        let lh = UInt32(removeFirst()) << 8
+        let ll = UInt32(removeFirst())
+        return hh | hl | lh | ll
     }
 
     public mutating func removeFirstLittleInt64() -> Int64? {
         guard count > 7 else { return nil }
-        let lll = removeFirst()
-        let llh = removeFirst()
-        let lhl = removeFirst()
-        let lhh = removeFirst()
-        let hll = removeFirst()
-        let hlh = removeFirst()
-        let hhl = removeFirst()
-        let hhh = removeFirst()
-        return (Int64(hhh) << 56) | (Int64(hhl) << 48) | (Int64(hlh) << 40) | (Int64(hll) << 32) | (Int64(lhh) << 24) | (Int64(lhl) << 16) | (Int64(llh) << 8) | Int64(lll)
+        let lll = Int64(removeFirst())
+        let llh = Int64(removeFirst()) << 8
+        let lhl = Int64(removeFirst()) << 16
+        let lhh = Int64(removeFirst()) << 24
+        let hll = Int64(removeFirst()) << 32
+        let hlh = Int64(removeFirst()) << 40
+        let hhl = Int64(removeFirst()) << 48
+        let hhh = Int64(removeFirst()) << 56
+        return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
 
     public mutating func removeFirstBigInt64() -> Int64? {
         guard count > 7 else { return nil }
-        let hhh = removeFirst()
-        let hhl = removeFirst()
-        let hlh = removeFirst()
-        let hll = removeFirst()
-        let lhh = removeFirst()
-        let lhl = removeFirst()
-        let llh = removeFirst()
-        let lll = removeFirst()
-        return (Int64(hhh) << 56) | (Int64(hhl) << 48) | (Int64(hlh) << 40) | (Int64(hll) << 32) | (Int64(lhh) << 24) | (Int64(lhl) << 16) | (Int64(llh) << 8) | Int64(lll)
+        let hhh = Int64(removeFirst()) << 56
+        let hhl = Int64(removeFirst()) << 48
+        let hlh = Int64(removeFirst()) << 40
+        let hll = Int64(removeFirst()) << 32
+        let lhh = Int64(removeFirst()) << 24
+        let lhl = Int64(removeFirst()) << 16
+        let llh = Int64(removeFirst()) << 8
+        let lll = Int64(removeFirst())
+        return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
     
     public mutating func removeFirstLittleUInt64() -> UInt64? {
         guard count > 7 else { return nil }
-        let lll = removeFirst()
-        let llh = removeFirst()
-        let lhl = removeFirst()
-        let lhh = removeFirst()
-        let hll = removeFirst()
-        let hlh = removeFirst()
-        let hhl = removeFirst()
-        let hhh = removeFirst()
-        return (UInt64(hhh) << 56) | (UInt64(hhl) << 48) | (UInt64(hlh) << 40) | (UInt64(hll) << 32) | (UInt64(lhh) << 24) | (UInt64(lhl) << 16) | (UInt64(llh) << 8) | UInt64(lll)
+        let lll = UInt64(removeFirst())
+        let llh = UInt64(removeFirst()) << 8
+        let lhl = UInt64(removeFirst()) << 16
+        let lhh = UInt64(removeFirst()) << 24
+        let hll = UInt64(removeFirst()) << 32
+        let hlh = UInt64(removeFirst()) << 40
+        let hhl = UInt64(removeFirst()) << 48
+        let hhh = UInt64(removeFirst()) << 56
+        return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
 
     public mutating func removeFirstBigUInt64() -> UInt64? {
         guard count > 7 else { return nil }
-        let hhh = removeFirst()
-        let hhl = removeFirst()
-        let hlh = removeFirst()
-        let hll = removeFirst()
-        let lhh = removeFirst()
-        let lhl = removeFirst()
-        let llh = removeFirst()
-        let lll = removeFirst()
-        return (UInt64(hhh) << 56) | (UInt64(hhl) << 48) | (UInt64(hlh) << 40) | (UInt64(hll) << 32) | (UInt64(lhh) << 24) | (UInt64(lhl) << 16) | (UInt64(llh) << 8) | UInt64(lll)
+        let hhh = UInt64(removeFirst()) << 56
+        let hhl = UInt64(removeFirst()) << 48
+        let hlh = UInt64(removeFirst()) << 40
+        let hll = UInt64(removeFirst()) << 32
+        let lhh = UInt64(removeFirst()) << 24
+        let lhl = UInt64(removeFirst()) << 16
+        let llh = UInt64(removeFirst()) << 8
+        let lll = UInt64(removeFirst())
+        return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
     
     public mutating func removeFirstLittleFloat() -> Float? {
         guard count > 3 else { return nil }
-        let ll = removeFirst()
-        let lh = removeFirst()
-        let hl = removeFirst()
-        let hh = removeFirst()
-        let bits = (UInt32(hh) << 24) | (UInt32(hl) << 16) | (UInt32(lh) << 8) | UInt32(ll)
+        let ll = UInt32(removeFirst())
+        let lh = UInt32(removeFirst()) << 8
+        let hl = UInt32(removeFirst()) << 16
+        let hh = UInt32(removeFirst()) << 24
+        let bits = hh | hl | lh | ll
         return Float(bitPattern: bits)
     }
 
     public mutating func removeFirstBigFloat() -> Float? {
         guard count > 3 else { return nil }
-        let hh = removeFirst()
-        let hl = removeFirst()
-        let lh = removeFirst()
-        let ll = removeFirst()
-        let bits = (UInt32(hh) << 24) | (UInt32(hl) << 16) | (UInt32(lh) << 8) | UInt32(ll)
+        let hh = UInt32(removeFirst()) << 24
+        let hl = UInt32(removeFirst()) << 16
+        let lh = UInt32(removeFirst()) << 8
+        let ll = UInt32(removeFirst())
+        let bits = hh | hl | lh | ll
         return Float(bitPattern: bits)
     }
 
     public mutating func removeFirstLittleDouble() -> Double? {
         guard count > 7 else { return nil }
-        let lll = removeFirst()
-        let llh = removeFirst()
-        let lhl = removeFirst()
-        let lhh = removeFirst()
-        let hll = removeFirst()
-        let hlh = removeFirst()
-        let hhl = removeFirst()
-        let hhh = removeFirst()
-        let bits = (UInt64(hhh) << 56) | (UInt64(hhl) << 48) | (UInt64(hlh) << 40) | (UInt64(hll) << 32) | (UInt64(lhh) << 24) | (UInt64(lhl) << 16) | (UInt64(llh) << 8) | UInt64(lll)
+        let lll = UInt64(removeFirst())
+        let llh = UInt64(removeFirst()) << 8
+        let lhl = UInt64(removeFirst()) << 16
+        let lhh = UInt64(removeFirst()) << 24
+        let hll = UInt64(removeFirst()) << 32
+        let hlh = UInt64(removeFirst()) << 40
+        let hhl = UInt64(removeFirst()) << 48
+        let hhh = UInt64(removeFirst()) << 56
+        let bits = hhh | hhl | hlh | hll | lhh | lhl | llh | lll
         return Double(bitPattern: bits)
     }
 
     public mutating func removeFirstBigDouble() -> Double? {
         guard count > 7 else { return nil }
-        let hhh = removeFirst()
-        let hhl = removeFirst()
-        let hlh = removeFirst()
-        let hll = removeFirst()
-        let lhh = removeFirst()
-        let lhl = removeFirst()
-        let llh = removeFirst()
-        let lll = removeFirst()
-        let bits = (UInt64(hhh) << 56) | (UInt64(hhl) << 48) | (UInt64(hlh) << 40) | (UInt64(hll) << 32) | (UInt64(lhh) << 24) | (UInt64(lhl) << 16) | (UInt64(llh) << 8) | UInt64(lll)
+        let hhh = UInt64(removeFirst()) << 56
+        let hhl = UInt64(removeFirst()) << 48
+        let hlh = UInt64(removeFirst()) << 40
+        let hll = UInt64(removeFirst()) << 32
+        let lhh = UInt64(removeFirst()) << 24
+        let lhl = UInt64(removeFirst()) << 16
+        let llh = UInt64(removeFirst()) << 8
+        let lll = UInt64(removeFirst())
+        let bits = hhh | hhl | hlh | hll | lhh | lhl | llh | lll
         return Double(bitPattern: bits)
     }
 

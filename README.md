@@ -12,7 +12,11 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.11.0 (Current)
+#### 0.11.1 (Current)
+
+- Compilation speed improvements
+
+#### 0.11.0
 
 - Swift 4 migration
 
