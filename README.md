@@ -12,7 +12,11 @@ Note: Planned releases are for information only and subject to change without no
 
 - To accompany Swiftfire 1.0.0
 
-#### 0.11.1 (Current)
+#### 0.12.0 (Current)
+
+- Migration to SPM 4
+
+#### 0.11.1
 
 - Compilation speed improvements
 
