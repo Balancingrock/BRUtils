@@ -3,7 +3,7 @@
 //  File:       Extensions.swift
 //  Project:    BRUtils
 //
-//  Version:    0.9.0
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.13.0 - Removed warnings for Swift 5
 // 0.9.0  - Added UnsafeRawPointer type extractions
 //        - Added crc16 calculation to Data
 // 0.6.0  - Added range and clamp as an Array extension.
@@ -67,7 +68,7 @@ public extension Bool {
     
     /// Initializes a bool from '0', '1', 'yes', 'no', 'true' or 'false'. Case insensitive.
     
-    public init?(lettersOrDigits: String) {
+    init?(lettersOrDigits: String) {
         if lettersOrDigits == "0" { self = false }
         else if lettersOrDigits == "1" { self = true }
         else if lettersOrDigits.compare("true", options: [.diacriticInsensitive, .caseInsensitive], range: nil, locale: nil) == ComparisonResult.orderedSame { self = true }
@@ -80,7 +81,7 @@ public extension Bool {
     
     /// Initializes a bool from 'yes', 'no', 'true' or 'false'. Case insensitive.
     
-    public init?(letters: String) {
+    init?(letters: String) {
         if letters.compare("true", options: [.diacriticInsensitive, .caseInsensitive], range: nil, locale: nil) == ComparisonResult.orderedSame { self = true }
         else if letters.compare("false", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = false }
         else if letters.compare("yes", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = true }
@@ -95,7 +96,7 @@ public extension Array {
     /// Removes the given object from the array.
     
     @discardableResult
-    public mutating func removeObject<T: AnyObject>(object: T) -> T? {
+    mutating func removeObject<T: AnyObject>(object: T) -> T? {
         for (i, obj) in self.enumerated() {
             if obj as? T === object {
                 return self.remove(at: i) as? T
@@ -107,14 +108,14 @@ public extension Array {
     
     /// - Returns: The range for this array
     
-    public var range: Range<Array.Index> {
+    var range: Range<Array.Index> {
         return Range.init(uncheckedBounds: (lower: self.startIndex, upper: self.endIndex))
     }
     
     
     /// - Returns: The given index clamped to either self.startIndex or self.endIndex.
     
-    public func clamp(_ index: Int) -> Int {
+    func clamp(_ index: Int) -> Int {
         if index < self.startIndex { return self.startIndex }
         if index > self.endIndex { return self.endIndex }
         return index
@@ -127,7 +128,7 @@ public extension NSNumber {
     
     /// Returns a number, first tries to convert the string to a bool, then an Int and lastly a double.
     
-    public static func factory(boolIntDouble: String) -> NSNumber? {
+    static func factory(boolIntDouble: String) -> NSNumber? {
         let str = boolIntDouble.trimmingCharacters(in: CharacterSet.whitespaces)
         if let b = Bool(lettersOrDigits: str) {
             return NSNumber(value: b)
@@ -138,7 +139,7 @@ public extension NSNumber {
 
     /// Returns a number, first tries to convert the string an Int and then a double.
 
-    public static func factory(intDouble: String) -> NSNumber? {
+    static func factory(intDouble: String) -> NSNumber? {
         let str = intDouble.trimmingCharacters(in: CharacterSet.whitespaces)
         if let i = Int(str) {
             if str == i.description {
@@ -164,7 +165,7 @@ public extension Date {
     
     /// Returns a DateComponents object that includes the .year, .month, .day of self for the given calendar or (if absent) the current calendar.
     
-    public func yearMonthDay(calendar: Calendar? = nil) -> DateComponents {
+    func yearMonthDay(calendar: Calendar? = nil) -> DateComponents {
         let calendar = calendar ?? Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: self)
         return components
@@ -173,7 +174,7 @@ public extension Date {
     
     /// Returns a DateComponents object that includes the .hour, .minute, .second of self for the given calendar or (if absent) the current calendar.
 
-    public func hourMinuteSecond(calendar: Calendar? = nil) -> DateComponents {
+    func hourMinuteSecond(calendar: Calendar? = nil) -> DateComponents {
         let calendar = calendar ?? Calendar.current
         let components = calendar.dateComponents([.hour, .minute, .second], from: self)
         return components
@@ -182,49 +183,49 @@ public extension Date {
     
     /// Milli seconds since 1 Jan 1970
     
-    public var javaDate: Int64 {
+    var javaDate: Int64 {
         return Int64(self.timeIntervalSince1970 * 1000)
     }
     
     
     /// Seconds since 1 Jan 1970
     
-    public var unixTime: Int64 {
+    var unixTime: Int64 {
         return Int64(self.timeIntervalSince1970)
     }
     
     
     /// The javaDate for begin-of-day of self
     
-    public var javaDateBeginOfDay: Int64 {
+    var javaDateBeginOfDay: Int64 {
         return Calendar.current.startOfDay(for: self).javaDate
     }
     
     
     /// The javaDate for the beginning of tomorrow.
     
-    public var javaDateBeginOfTomorrow: Int64 {
+    var javaDateBeginOfTomorrow: Int64 {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)!.javaDateBeginOfDay
     }
 
     
     /// The javaDate for the beginning of yesterday.
     
-    public var javaDateBeginOfYesterday: Int64 {
+    var javaDateBeginOfYesterday: Int64 {
         return Calendar.current.date(byAdding: .day, value: -1, to: self)!.javaDateBeginOfDay
     }
 
     
     /// The javaDate for the beginning of the week self is in
     
-    public var javaDateBeginOfWeek: Int64 {
+    var javaDateBeginOfWeek: Int64 {
         return Calendar.current.date(bySetting: .weekday, value: 1, of: self)!.javaDateBeginOfDay
     }
     
     
     /// The javaDate for the beginning of the next week
     
-    public var javaDateBeginOfNextWeek: Int64 {
+    var javaDateBeginOfNextWeek: Int64 {
         let aDate = Calendar.current.date(byAdding: .weekOfYear, value: 1, to: self)!
         return Calendar.current.date(bySetting: .weekday, value: 1, of: aDate)!.javaDateBeginOfDay
     }
@@ -232,14 +233,14 @@ public extension Date {
 
     /// The javaDate for the beginning of the month self is in
     
-    public var javaDateBeginOfMonth: Int64 {
+    var javaDateBeginOfMonth: Int64 {
         return Calendar.current.date(bySetting: .day, value: 1, of: self)!.javaDateBeginOfDay
     }
     
     
     /// The javaData for the beginning of next month
     
-    public var javaDateBeginOfNextMonth: Int64 {
+    var javaDateBeginOfNextMonth: Int64 {
         let aDate = Calendar.current.date(byAdding: .month, value: 1, to: self)!
         return Calendar.current.date(bySetting: .day, value: 1, of: aDate)!.javaDateBeginOfDay
     }
@@ -249,7 +250,7 @@ public extension Date {
     ///
     /// - Parameter value: The number of milli seconds since 1 Jan 1970
     
-    public static func fromJavaDate(_ value: Int64) -> Date {
+    static func fromJavaDate(_ value: Int64) -> Date {
         return Date(timeIntervalSince1970: Double(value / 1000))
     }
     
@@ -258,7 +259,7 @@ public extension Date {
     ///
     /// - Parameter value: The number of seconds since 1 Jan 1970
     
-    public static func fromUnixTime(_ value: Int64) -> Date {
+    static func fromUnixTime(_ value: Int64) -> Date {
         return Date(timeIntervalSince1970: Double(value))
     }
 }
@@ -452,7 +453,7 @@ public extension Data {
     ///   - initialValue: Use 0 for an ARC CRC value (default) or 0xFFFF for the MODBUS CRC.
     ///   - polynomial: The polynomial to be used, default is 0xA001 (= 0x8005 reversed).
     
-    public func crc16(initialValue: UInt16 = 0, polynomial: UInt16 = 0xA001) -> UInt16 {
+    func crc16(initialValue: UInt16 = 0, polynomial: UInt16 = 0xA001) -> UInt16 {
         if isEmpty { return initialValue }
         var accumulator: UInt16 = initialValue
         for byte in self {

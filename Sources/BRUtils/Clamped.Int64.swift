@@ -3,7 +3,7 @@
 //  File:       Clamped.Int64.swift
 //  Project:    BRUtils
 //
-//  Version:    0.7.0
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.13.0 - Removed warnings for Swift 5
 // 0.7.0 - Initial release
 //
 // =====================================================================================================================
@@ -62,7 +63,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int) -> Int64 {
+    static func clamped(_ value: Int) -> Int64 {
         return Int64(value)
     }
     
@@ -71,17 +72,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int8) -> Int64 {
-        return Int64(value)
-    }
-    
-    
-    /// Creates a new value from the given value clamped to the limits if necessary.
-    ///
-    /// - Parameter value: The new value.
-    
-    
-    public static func clamped(_ value: Int16) -> Int64 {
+    static func clamped(_ value: Int8) -> Int64 {
         return Int64(value)
     }
     
@@ -91,7 +82,7 @@ public extension Int64 {
     /// - Parameter value: The new value.
     
     
-    public static func clamped(_ value: Int32) -> Int64 {
+    static func clamped(_ value: Int16) -> Int64 {
         return Int64(value)
     }
     
@@ -100,7 +91,17 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int64) -> Int64 {
+    
+    static func clamped(_ value: Int32) -> Int64 {
+        return Int64(value)
+    }
+    
+    
+    /// Creates a new value from the given value clamped to the limits if necessary.
+    ///
+    /// - Parameter value: The new value.
+    
+    static func clamped(_ value: Int64) -> Int64 {
         return value
     }
     
@@ -109,7 +110,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt) -> Int64 {
+    static func clamped(_ value: UInt) -> Int64 {
         if MemoryLayout<Int>.size == 4 {
             return Int64(value)
         } else {
@@ -126,7 +127,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt8) -> Int64 {
+    static func clamped(_ value: UInt8) -> Int64 {
         return Int64(value)
     }
     
@@ -135,7 +136,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt16) -> Int64 {
+    static func clamped(_ value: UInt16) -> Int64 {
         return Int64(value)
     }
     
@@ -144,7 +145,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt32) -> Int64 {
+    static func clamped(_ value: UInt32) -> Int64 {
         return Int64(value)
     }
     
@@ -153,7 +154,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt64) -> Int64 {
+    static func clamped(_ value: UInt64) -> Int64 {
         if value >= UInt64(Int64.max) {
             return Int64.max
         } else {
@@ -166,7 +167,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Float, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
+    static func clamped(_ value: Float, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
         if value >= Float(Int64.max) {
             return Int64.max
         } else if value <= Float(Int64.min) {
@@ -181,7 +182,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Double, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
+    static func clamped(_ value: Double, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
         if value >= Double(Int64.max) {
             return Int64.max
         } else if value <= Double(Int64.min) {
@@ -196,7 +197,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Float80, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
+    static func clamped(_ value: Float80, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
         if value >= Float80(Int64.max) {
             return Int64.max
         } else if value <= Float80(Int64.min) {
@@ -213,7 +214,7 @@ public extension Int64 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: NSNumber, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
+    static func clamped(_ value: NSNumber, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int64 {
         return Int64.clamped(value.doubleValue, rounding: rounding)
     }
     

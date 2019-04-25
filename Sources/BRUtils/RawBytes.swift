@@ -3,7 +3,7 @@
 //  File:       RawBytes.swift
 //  Project:    BRUtils
 //
-//  Version:    0.11.1
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,8 @@
 //
 // History
 //
+// 0.13.0 - Changed index to firstIndex because of Swift 5 update
+//        - Removed warnings for Swift 5
 // 0.11.1 - Compilation speed improvements
 // 0.11.0 - Swift 4 migration: changed implementation of removeFirstUtf8CString because Data implemenation changed.
 // 0.9.0 - Endianness support
@@ -110,9 +112,9 @@ public protocol RawBytes {
 
 extension RawBytes {
     
-    public var bigData: Data { return Data(bytes: self.bigBytes) }
+    public var bigData: Data { return Data(self.bigBytes) }
     
-    public var littleData: Data { return Data(bytes: self.littleBytes) }
+    public var littleData: Data { return Data(self.littleBytes) }
 }
 
 extension Bool: RawBytes {
@@ -616,15 +618,15 @@ extension String: RawBytes {
 
 public extension Data {
     
-    public mutating func appendLittle(_ item: RawBytes) {
+    mutating func appendLittle(_ item: RawBytes) {
         self.append(contentsOf: item.littleBytes)
     }
 
-    public mutating func appendBig(_ item: RawBytes) {
+    mutating func appendBig(_ item: RawBytes) {
         self.append(contentsOf: item.bigBytes)
     }
     
-    public mutating func removeFirstBool() -> Bool? {
+    mutating func removeFirstBool() -> Bool? {
         guard self.count > 0 else { return nil }
         let candidate = removeFirst()
         if candidate == 0 { return false }
@@ -632,45 +634,45 @@ public extension Data {
         return nil
     }
     
-    public mutating func removeFirstInt8() -> Int8? {
+    mutating func removeFirstInt8() -> Int8? {
         guard self.count > 0 else { return nil }
         return Int8(bitPattern: removeFirst())
     }
     
-    public mutating func removeFirstUInt8() -> UInt8? {
+    mutating func removeFirstUInt8() -> UInt8? {
         guard self.count > 0 else { return nil }
         return removeFirst()
     }
     
-    public mutating func removeFirstLittleInt16() -> Int16? {
+    mutating func removeFirstLittleInt16() -> Int16? {
         guard count > 1 else { return nil }
         let l = Int16(removeFirst())
         let h = Int16(removeFirst()) << 8
         return h | l
     }
     
-    public mutating func removeFirstBigInt16() -> Int16? {
+    mutating func removeFirstBigInt16() -> Int16? {
         guard count > 1 else { return nil }
         let h = Int16(removeFirst()) << 8
         let l = Int16(removeFirst())
         return h | l
     }
     
-    public mutating func removeFirstLittleUInt16() -> UInt16? {
+    mutating func removeFirstLittleUInt16() -> UInt16? {
         guard count > 1 else { return nil }
         let l = UInt16(removeFirst())
         let h = UInt16(removeFirst()) << 8
         return h | l
     }
 
-    public mutating func removeFirstBigUInt16() -> UInt16? {
+    mutating func removeFirstBigUInt16() -> UInt16? {
         guard count > 1 else { return nil }
         let h = UInt16(removeFirst()) << 8
         let l = UInt16(removeFirst())
         return h | l
     }
     
-    public mutating func removeFirstLittleInt32() -> Int32? {
+    mutating func removeFirstLittleInt32() -> Int32? {
         guard count > 3 else { return nil }
         let ll = Int32(removeFirst())
         let lh = Int32(removeFirst()) << 8
@@ -679,7 +681,7 @@ public extension Data {
         return hh | hl | lh | ll
     }
     
-    public mutating func removeFirstBigInt32() -> Int32? {
+    mutating func removeFirstBigInt32() -> Int32? {
         guard count > 3 else { return nil }
         let hh = Int32(removeFirst()) << 24
         let hl = Int32(removeFirst()) << 16
@@ -688,7 +690,7 @@ public extension Data {
         return hh | hl | lh | ll
     }
     
-    public mutating func removeFirstLittleUInt32() -> UInt32? {
+    mutating func removeFirstLittleUInt32() -> UInt32? {
         guard count > 3 else { return nil }
         let ll = UInt32(removeFirst())
         let lh = UInt32(removeFirst()) << 8
@@ -697,7 +699,7 @@ public extension Data {
         return hh | hl | lh | ll
     }
 
-    public mutating func removeFirstBigUInt32() -> UInt32? {
+    mutating func removeFirstBigUInt32() -> UInt32? {
         guard count > 3 else { return nil }
         let hh = UInt32(removeFirst()) << 24
         let hl = UInt32(removeFirst()) << 16
@@ -706,7 +708,7 @@ public extension Data {
         return hh | hl | lh | ll
     }
 
-    public mutating func removeFirstLittleInt64() -> Int64? {
+    mutating func removeFirstLittleInt64() -> Int64? {
         guard count > 7 else { return nil }
         let lll = Int64(removeFirst())
         let llh = Int64(removeFirst()) << 8
@@ -719,7 +721,7 @@ public extension Data {
         return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
 
-    public mutating func removeFirstBigInt64() -> Int64? {
+    mutating func removeFirstBigInt64() -> Int64? {
         guard count > 7 else { return nil }
         let hhh = Int64(removeFirst()) << 56
         let hhl = Int64(removeFirst()) << 48
@@ -732,7 +734,7 @@ public extension Data {
         return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
     
-    public mutating func removeFirstLittleUInt64() -> UInt64? {
+    mutating func removeFirstLittleUInt64() -> UInt64? {
         guard count > 7 else { return nil }
         let lll = UInt64(removeFirst())
         let llh = UInt64(removeFirst()) << 8
@@ -745,7 +747,7 @@ public extension Data {
         return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
 
-    public mutating func removeFirstBigUInt64() -> UInt64? {
+    mutating func removeFirstBigUInt64() -> UInt64? {
         guard count > 7 else { return nil }
         let hhh = UInt64(removeFirst()) << 56
         let hhl = UInt64(removeFirst()) << 48
@@ -758,7 +760,7 @@ public extension Data {
         return hhh | hhl | hlh | hll | lhh | lhl | llh | lll
     }
     
-    public mutating func removeFirstLittleFloat() -> Float? {
+    mutating func removeFirstLittleFloat() -> Float? {
         guard count > 3 else { return nil }
         let ll = UInt32(removeFirst())
         let lh = UInt32(removeFirst()) << 8
@@ -768,7 +770,7 @@ public extension Data {
         return Float(bitPattern: bits)
     }
 
-    public mutating func removeFirstBigFloat() -> Float? {
+    mutating func removeFirstBigFloat() -> Float? {
         guard count > 3 else { return nil }
         let hh = UInt32(removeFirst()) << 24
         let hl = UInt32(removeFirst()) << 16
@@ -778,7 +780,7 @@ public extension Data {
         return Float(bitPattern: bits)
     }
 
-    public mutating func removeFirstLittleDouble() -> Double? {
+    mutating func removeFirstLittleDouble() -> Double? {
         guard count > 7 else { return nil }
         let lll = UInt64(removeFirst())
         let llh = UInt64(removeFirst()) << 8
@@ -792,7 +794,7 @@ public extension Data {
         return Double(bitPattern: bits)
     }
 
-    public mutating func removeFirstBigDouble() -> Double? {
+    mutating func removeFirstBigDouble() -> Double? {
         guard count > 7 else { return nil }
         let hhh = UInt64(removeFirst()) << 56
         let hhl = UInt64(removeFirst()) << 48
@@ -806,8 +808,8 @@ public extension Data {
         return Double(bitPattern: bits)
     }
 
-    public mutating func removeFirstUtf8CString() -> String? {
-        if let endOfStringIndex = index(of: 0x00) {
+    mutating func removeFirstUtf8CString() -> String? {
+        if let endOfStringIndex = firstIndex(of: 0x00) {
             let stringData = subdata(in: self.startIndex ..< endOfStringIndex)
             if let str = String(data: stringData, encoding: .utf8) {
                 removeFirst(endOfStringIndex - self.startIndex + 1)

@@ -3,7 +3,7 @@
 //  File:       TimeRelated.swift
 //  Project:    BRUtils
 //
-//  Version:    0.6.0
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.13.0 - Removed warnings for Swift 5
 // 0.6.0 - Initial release
 //
 // =====================================================================================================================
@@ -67,7 +68,7 @@ public extension timespec {
 
     /// Create a timespec (nsec resolution) from a TimeInterval.
     
-    public init(_ timeInterval: TimeInterval) {
+    init(_ timeInterval: TimeInterval) {
         let sec = Int(timeInterval)
         let nsec = Int((timeInterval - Double(sec)) * Double(NSEC_PER_SEC))
         self.init(tv_sec: sec, tv_nsec: nsec)
@@ -81,7 +82,7 @@ public extension timeval {
     
     /// Create a timeval (usec resolution) from a TimeInterval.
 
-    public init(_ timeInterval: TimeInterval) {
+    init(_ timeInterval: TimeInterval) {
         let sec = Int(timeInterval)
         let usec = Int32((timeInterval - Double(sec)) * Double(USEC_PER_SEC))
         self.init(tv_sec: sec, tv_usec: usec)
@@ -95,13 +96,13 @@ public extension TimeInterval {
     
     /// Create a TimeInterval from a timespec (nsec resolution)
     
-    public init(_ spec: timespec) {
+    init(_ spec: timespec) {
         self.init(Double(spec.tv_sec) + (Double(spec.tv_nsec) / Double(NSEC_PER_SEC)))
     }
     
     /// Create a TimeInterval from a timeval (usec resolution)
 
-    public init(_ val: timeval) {
+    init(_ val: timeval) {
         self.init(Double(val.tv_sec) + (Double(val.tv_usec) / Double(USEC_PER_SEC)))
     }
 }

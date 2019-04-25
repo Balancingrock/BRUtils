@@ -3,7 +3,7 @@
 //  File:       Clamped.Int16.swift
 //  Project:    BRUtils
 //
-//  Version:    0.7.0
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.13.0 - Removed warnings for Swift 5
 // 0.7.0 - Initial release
 //
 // =====================================================================================================================
@@ -62,7 +63,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int) -> Int16 {
+    static func clamped(_ value: Int) -> Int16 {
         if value >= Int(Int16.max) {
             return Int16.max
         } else if value <= Int(Int16.min) {
@@ -77,7 +78,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int8) -> Int16 {
+    static func clamped(_ value: Int8) -> Int16 {
         return Int16(value)
     }
     
@@ -87,7 +88,7 @@ public extension Int16 {
     /// - Parameter value: The new value.
     
     
-    public static func clamped(_ value: Int16) -> Int16 {
+    static func clamped(_ value: Int16) -> Int16 {
         return value
     }
 
@@ -97,7 +98,7 @@ public extension Int16 {
     /// - Parameter value: The new value.
     
     
-    public static func clamped(_ value: Int32) -> Int16 {
+    static func clamped(_ value: Int32) -> Int16 {
         if value >= Int32(Int16.max) {
             return Int16.max
         } else if value <= Int32(Int16.min) {
@@ -112,7 +113,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Int64) -> Int16 {
+    static func clamped(_ value: Int64) -> Int16 {
         if value >= Int64(Int16.max) {
             return Int16.max
         } else if value <= Int64(Int16.min) {
@@ -127,7 +128,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt) -> Int16 {
+    static func clamped(_ value: UInt) -> Int16 {
         if value >= UInt(Int16.max) {
             return Int16.max
         } else {
@@ -140,7 +141,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt8) -> Int16 {
+    static func clamped(_ value: UInt8) -> Int16 {
         return Int16(value)
     }
     
@@ -149,7 +150,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt16) -> Int16 {
+    static func clamped(_ value: UInt16) -> Int16 {
         if value >= UInt16(Int16.max) {
             return Int16.max
         } else {
@@ -162,7 +163,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt32) -> Int16 {
+    static func clamped(_ value: UInt32) -> Int16 {
         if value >= UInt32(Int16.max) {
             return Int16.max
         } else {
@@ -175,7 +176,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: UInt64) -> Int16 {
+    static func clamped(_ value: UInt64) -> Int16 {
         if value >= UInt64(Int16.max) {
             return Int16.max
         } else {
@@ -188,7 +189,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Float, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
+    static func clamped(_ value: Float, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
         if value >= Float(Int16.max) {
             return Int16.max
         } else if value <= Float(Int16.min) {
@@ -203,7 +204,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Double, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
+    static func clamped(_ value: Double, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
         if value >= Double(Int16.max) {
             return Int16.max
         } else if value <= Double(Int16.min) {
@@ -218,7 +219,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Float80, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
+    static func clamped(_ value: Float80, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
         if value >= Float80(Int16.max) {
             return Int16.max
         } else if value <= Float80(Int16.min) {
@@ -235,7 +236,7 @@ public extension Int16 {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: NSNumber, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
+    static func clamped(_ value: NSNumber, rounding: FloatingPointRoundingRule = .toNearestOrAwayFromZero) -> Int16 {
         return Int16.clamped(value.doubleValue, rounding: rounding)
     }
     

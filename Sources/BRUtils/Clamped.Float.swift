@@ -3,7 +3,7 @@
 //  File:       Clamped.Float.swift
 //  Project:    BRUtils
 //
-//  Version:    0.7.0
+//  Version:    0.13.0
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -48,6 +48,7 @@
 //
 // History
 //
+// 0.13.0 - Removed warnings for Swift 5
 // 0.7.0 - Initial release
 //
 // =====================================================================================================================
@@ -62,7 +63,7 @@ public extension Float {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Double) -> Float {
+    static func clamped(_ value: Double) -> Float {
         if value > Double(Float.greatestFiniteMagnitude) {
             return Float.greatestFiniteMagnitude
         } else if value < Double(-Float.greatestFiniteMagnitude) {
@@ -77,7 +78,7 @@ public extension Float {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: Float80) -> Float {
+    static func clamped(_ value: Float80) -> Float {
         if value > Float80(Float.greatestFiniteMagnitude) {
             return Float.greatestFiniteMagnitude
         } else if value < Float80(-Float.greatestFiniteMagnitude) {
@@ -94,7 +95,7 @@ public extension Float {
     ///
     /// - Parameter value: The new value.
     
-    public static func clamped(_ value: NSNumber) -> Float {
+    static func clamped(_ value: NSNumber) -> Float {
         return Float.clamped(value.doubleValue)
     }
     
