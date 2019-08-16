@@ -45,7 +45,15 @@ import Foundation
 /// The endianess type
 
 public enum Endianness {
+    
+    
+    /// MSB before LSB
+    
     case big
+    
+    
+    /// LSB before MSB
+    
     case little
 }
 

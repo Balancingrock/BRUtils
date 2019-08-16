@@ -166,7 +166,7 @@ public extension Data {
     /// Calculates a 32 bit CRC over the content of self.
     ///
     /// - Parameters:
-    ///   - initialValue: Usually set to 0xFFFF_FFFF
+    ///   - initialValue: Usually set to 0 or 0xFFFF_FFFF. Setting to zero will ignore all leading zero's in self, which may lead to non-detection of missing leading zero's.
     ///
     /// - Returns: The CRC value.
 

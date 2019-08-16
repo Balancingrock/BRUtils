@@ -46,9 +46,10 @@ import Foundation
 
 public extension timespec {
 
+    
     /// Create a timespec (nsec resolution) from a TimeInterval.
     
-    init(_ timeInterval: TimeInterval) {
+    init(timeInterval: TimeInterval) {
         let sec = Int(timeInterval)
         let nsec = Int((timeInterval - Double(sec)) * Double(NSEC_PER_SEC))
         self.init(tv_sec: sec, tv_nsec: nsec)
@@ -60,9 +61,10 @@ public extension timespec {
 
 public extension timeval {
     
+    
     /// Create a timeval (usec resolution) from a TimeInterval.
 
-    init(_ timeInterval: TimeInterval) {
+    init(timeInterval: TimeInterval) {
         let sec = Int(timeInterval)
         let usec = Int32((timeInterval - Double(sec)) * Double(USEC_PER_SEC))
         self.init(tv_sec: sec, tv_usec: usec)
@@ -74,16 +76,18 @@ public extension timeval {
 
 public extension TimeInterval {
     
+    
     /// Create a TimeInterval from a timespec (nsec resolution)
     
-    init(_ spec: timespec) {
-        self.init(Double(spec.tv_sec) + (Double(spec.tv_nsec) / Double(NSEC_PER_SEC)))
+    init(timespec: timespec) {
+        self.init(Double(timespec.tv_sec) + (Double(timespec.tv_nsec) / Double(NSEC_PER_SEC)))
     }
+    
     
     /// Create a TimeInterval from a timeval (usec resolution)
 
-    init(_ val: timeval) {
-        self.init(Double(val.tv_sec) + (Double(val.tv_usec) / Double(USEC_PER_SEC)))
+    init(timeval: timeval) {
+        self.init(Double(timeval.tv_sec) + (Double(timeval.tv_usec) / Double(USEC_PER_SEC)))
     }
 }
 
@@ -95,11 +99,11 @@ public extension TimeInterval {
 
 public func sleep(_ duration: TimeInterval) -> TimeInterval? {
 
-    var requested = timespec(duration)
+    var requested = timespec(timeInterval: duration)
     var remainder: timespec = timespec()
 
     if nanosleep(&requested, &remainder) != 0 {
-        return TimeInterval(remainder)
+        return TimeInterval(timespec: remainder)
     } else {
         return nil
     }

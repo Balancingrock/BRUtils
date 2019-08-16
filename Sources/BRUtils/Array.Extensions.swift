@@ -62,13 +62,17 @@ public extension Array {
     }
     
     
-    /// - Returns: The range for this array
+    /// - Returns: The range for this array that encompasses the entire array.
     
     var range: Range<Array.Index> {
         return Range.init(uncheckedBounds: (lower: self.startIndex, upper: self.endIndex))
     }
     
     
+    /// Limits the given integer to a valid index.
+    ///
+    /// - Parameter index: The index to be limied to the available indicies.
+    ///
     /// - Returns: The given index clamped to either self.startIndex or self.endIndex.
     
     func clamp(index: Int) -> Int {

@@ -50,18 +50,18 @@ import Foundation
 public enum Result<T> {
     
     
-    // An error occured. The message details the kind of error.
+    /// An error occured. The message details the kind of error.
     
     case error(message: String)
     
     
-    // The operation was sucessfull. The result is contained.
+    /// The operation was sucessfull. The result is contained.
     
     case success(T)
 }
 
 
-/// Add to Result<Bool> types together.
+/// Add two Result<Bool> types together.
 ///
 /// - Returns: An error if either one of the input parameters contains an error. If both contain an error, the messages are combined and separated by a newline. Returns .success if both parameters contain .success with the content set to the 'and' of both associated values.
 

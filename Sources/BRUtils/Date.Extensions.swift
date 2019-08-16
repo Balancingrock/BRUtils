@@ -128,20 +128,16 @@ public extension Date {
     }
     
     
-    /// Create a new Date object.
-    ///
-    /// - Parameter value: The number of milli seconds since 1 Jan 1970
+    /// Create a new Date from the given javaDate.
     
-    static func fromJavaDate(_ value: Int64) -> Date {
-        return Date(timeIntervalSince1970: Double(value / 1000))
+    init(javaDate: Int64) {
+        self.init(timeIntervalSince1970: Double(javaDate / 1000))
     }
     
     
-    /// Create a new Date object.
-    ///
-    /// - Parameter value: The number of seconds since 1 Jan 1970
+    /// Create a new Date from the given unixTime.
     
-    static func fromUnixTime(_ value: Int64) -> Date {
-        return Date(timeIntervalSince1970: Double(value))
+    init(unixTime: Int64) {
+        self.init(timeIntervalSince1970: Double(unixTime))
     }
 }

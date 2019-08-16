@@ -44,7 +44,7 @@ import Foundation
    
 /// Returns a tuple with the input values sorted as minimum and maximum value.
 
-public func gf_minmax<T: Comparable>(_ first: T, second: T) -> (min: T, max: T) {
+public func minmax<T: Comparable>(_ first: T, _ second: T) -> (min: T, max: T) {
     let rmin = min(first, second)
     let rmax = max(first, second)
     return (rmin, rmax)
@@ -52,34 +52,34 @@ public func gf_minmax<T: Comparable>(_ first: T, second: T) -> (min: T, max: T) 
 
 
 /// Returns a tuple with the input values sorted as minimum and maximum value. The minimum value will be at least as high as the lowLimit and the maximum value will be no higher than the highLimit.
+///
+/// - Parameters:
+///   - lowLimit: The lower limit for either first or second.
+///   - first: The first value ot be sorted.
+///   - second: The second value to be sorted.
+///   - highLimit: The higher limit for either first or second.
+///
+/// - Returns: A tuble where the first value is lower or equal to the second value and neither value is below the lowLimit or above the high limit.
 
-public func gf_clippedMinMax<T: Comparable>(lowLimit: T, first: T, second: T, highLimit: T) -> (min: T, max: T) {
+public func minMax<T: Comparable>(lowLimit: T, _ first: T, _ second: T, highLimit: T) -> (min: T, max: T) {
     let clippedFirst = max(lowLimit, min(highLimit, first))
     let clippedSecond = min(highLimit, max(lowLimit, second))
-    return gf_minmax(clippedFirst, second: clippedSecond)
+    return minmax(clippedFirst, clippedSecond)
 }
 
 
-/// Does not return a value outside the high and low limits
+/// Does not return a value outside the high and low limits.
+///
+/// - Parameters:
+///   - lowLimit: The lowest value that may be returned.
+///   - value: The value that will be returned if it is now lower than lowLimit or higher than highLimit.
+///   - highLimit: The highest value that will be returned.
+///
+/// - Returns: Avalue between lowLimit and highLimit.
 
-public func gf_clippedValue<T: Comparable>(lowLimit: T, value: T, highLimit: T) -> T {
+public func limit<T: Comparable>(lowLimit: T, _ value: T, highLimit: T) -> T {
     if value < lowLimit { return lowLimit }
     if value > highLimit { return highLimit }
     return value
 }
 
-
-/// Returns a value lower or equal to max
-
-public func gf_limitToMax<T: Comparable>(_ value: T, max: T) -> T {
-    if value > max { return max }
-    return value
-}
-
-
-/// Returns a value higher or equal to min
-
-public func gf_limitToMin<T: Comparable>(_ value: T, min: T) -> T {
-    if value < min { return min }
-    return value
-}
