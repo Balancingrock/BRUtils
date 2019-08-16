@@ -1,6 +1,6 @@
 // =====================================================================================================================
 //
-//  File:       GlobalFunctions.swift
+//  File:       Bool.Extensions.swift
 //  Project:    BRUtils
 //
 //  Version:    1.0.0
@@ -41,45 +41,32 @@
 
 import Foundation
 
-   
-/// Returns a tuple with the input values sorted as minimum and maximum value.
 
-public func gf_minmax<T: Comparable>(_ first: T, second: T) -> (min: T, max: T) {
-    let rmin = min(first, second)
-    let rmax = max(first, second)
-    return (rmin, rmax)
+public extension Bool {
+    
+    
+    /// Initializes a bool from '0', '1', 'yes', 'no', 'true' or 'false'. Case insensitive.
+    
+    init?(lettersOrDigits: String) {
+        if lettersOrDigits == "0" { self = false }
+        else if lettersOrDigits == "1" { self = true }
+        else if lettersOrDigits.compare("true", options: [.diacriticInsensitive, .caseInsensitive], range: nil, locale: nil) == ComparisonResult.orderedSame { self = true }
+        else if lettersOrDigits.compare("false", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = false }
+        else if lettersOrDigits.compare("yes", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = true }
+        else if lettersOrDigits.compare("no", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = false }
+        else { return nil }
+    }
+    
+    
+    /// Initializes a bool from 'yes', 'no', 'true' or 'false'. Case insensitive.
+    
+    init?(letters: String) {
+        if letters.compare("true", options: [.diacriticInsensitive, .caseInsensitive], range: nil, locale: nil) == ComparisonResult.orderedSame { self = true }
+        else if letters.compare("false", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = false }
+        else if letters.compare("yes", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = true }
+        else if letters.compare("no", options: [.diacriticInsensitive, .caseInsensitive]) == ComparisonResult.orderedSame { self = false }
+        else { return nil }
+    }
 }
 
 
-/// Returns a tuple with the input values sorted as minimum and maximum value. The minimum value will be at least as high as the lowLimit and the maximum value will be no higher than the highLimit.
-
-public func gf_clippedMinMax<T: Comparable>(lowLimit: T, first: T, second: T, highLimit: T) -> (min: T, max: T) {
-    let clippedFirst = max(lowLimit, min(highLimit, first))
-    let clippedSecond = min(highLimit, max(lowLimit, second))
-    return gf_minmax(clippedFirst, second: clippedSecond)
-}
-
-
-/// Does not return a value outside the high and low limits
-
-public func gf_clippedValue<T: Comparable>(lowLimit: T, value: T, highLimit: T) -> T {
-    if value < lowLimit { return lowLimit }
-    if value > highLimit { return highLimit }
-    return value
-}
-
-
-/// Returns a value lower or equal to max
-
-public func gf_limitToMax<T: Comparable>(_ value: T, max: T) -> T {
-    if value > max { return max }
-    return value
-}
-
-
-/// Returns a value higher or equal to min
-
-public func gf_limitToMin<T: Comparable>(_ value: T, min: T) -> T {
-    if value < min { return min }
-    return value
-}

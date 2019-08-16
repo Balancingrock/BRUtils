@@ -1,6 +1,6 @@
 // =====================================================================================================================
 //
-//  File:       Endianness.swift
+//  File:       NSNumber.Extensions.swift
 //  Project:    BRUtils
 //
 //  Version:    1.0.0
@@ -10,7 +10,7 @@
 //  Website:    http://swiftfire.nl/
 //  Git:        https://github.com/Balancingrock/Swiftfire
 //
-//  Copyright:  (c) 2017-2019 Marinus van der Lugt, All rights reserved.
+//  Copyright:  (c) 2019 Marinus van der Lugt, All rights reserved.
 //
 //  License:    Use or redistribute this code any way you like with the following two provision:
 //
@@ -42,26 +42,44 @@
 import Foundation
 
 
-/// The endianess type
+public extension NSNumber {
+    
+    
+    /// Convert a string to an NSNumber.
+    ///
+    /// The internal number in the NSNumber will be Bool based if possible, of not then Int based, if that too is not possible then it will be Double based.
+    ///
+    /// - Parameter boolIntDouble: The string to be converted.
+    ///
+    /// - Returns: The converted number or nil if conversion is not possible.
 
-public enum Endianness {
-    case big
-    case little
-}
-
-
-/// The endianness of the local computer
-
-public let machineEndianness: Endianness = {
-    func test(_ ptr: UnsafePointer<UInt16>) -> Endianness {
-        let mptr = UnsafeRawPointer(ptr)
-        let nptr = mptr.assumingMemoryBound(to: UInt8.self)
-        if nptr.pointee == 0 {
-            return .big
-        } else {
-            return .little
+    static func factory(boolIntDouble: String) -> NSNumber? {
+        let str = boolIntDouble.trimmingCharacters(in: CharacterSet.whitespaces)
+        if let b = Bool(lettersOrDigits: str) {
+            return NSNumber(value: b)
         }
+        return factory(intDouble: str)
     }
-    var val: UInt16 = 1
-    return test(&val)
-}()
+    
+    
+    /// Convert a string to an NSNumber.
+    ///
+    /// The internal number in the NSNumber will be Int based if possible, if not it will be Double based.
+    ///
+    /// - Parameter intDouble: The string to be converted.
+    ///
+    /// - Returns: The converted number or nil if conversion is not possible.
+    
+    static func factory(intDouble: String) -> NSNumber? {
+        let str = intDouble.trimmingCharacters(in: CharacterSet.whitespaces)
+        if let i = Int(str) {
+            if str == i.description {
+                return NSNumber(value: i)
+            }
+        }
+        if let d = Double(str) {
+            return NSNumber(value: d)
+        }
+        return nil
+    }
+}

@@ -1,6 +1,6 @@
 // =====================================================================================================================
 //
-//  File:       Endianness.swift
+//  File:       Array.Extensions.swift
 //  Project:    BRUtils
 //
 //  Version:    1.0.0
@@ -10,7 +10,7 @@
 //  Website:    http://swiftfire.nl/
 //  Git:        https://github.com/Balancingrock/Swiftfire
 //
-//  Copyright:  (c) 2017-2019 Marinus van der Lugt, All rights reserved.
+//  Copyright:  (c) 2019 Marinus van der Lugt, All rights reserved.
 //
 //  License:    Use or redistribute this code any way you like with the following two provision:
 //
@@ -42,26 +42,38 @@
 import Foundation
 
 
-/// The endianess type
-
-public enum Endianness {
-    case big
-    case little
-}
-
-
-/// The endianness of the local computer
-
-public let machineEndianness: Endianness = {
-    func test(_ ptr: UnsafePointer<UInt16>) -> Endianness {
-        let mptr = UnsafeRawPointer(ptr)
-        let nptr = mptr.assumingMemoryBound(to: UInt8.self)
-        if nptr.pointee == 0 {
-            return .big
-        } else {
-            return .little
+public extension Array {
+    
+    
+    /// Removes the given object from the array.
+    ///
+    /// - Parameter object: The Object to remove from the array.
+    ///
+    /// - Returns: Nil if the object was not found in the array, otherwise the object itself.
+    
+    @discardableResult
+    mutating func removeObject<T: AnyObject>(object: T) -> T? {
+        for (i, obj) in self.enumerated() {
+            if obj as? T === object {
+                return self.remove(at: i) as? T
+            }
         }
+        return nil
     }
-    var val: UInt16 = 1
-    return test(&val)
-}()
+    
+    
+    /// - Returns: The range for this array
+    
+    var range: Range<Array.Index> {
+        return Range.init(uncheckedBounds: (lower: self.startIndex, upper: self.endIndex))
+    }
+    
+    
+    /// - Returns: The given index clamped to either self.startIndex or self.endIndex.
+    
+    func clamp(index: Int) -> Int {
+        if index < self.startIndex { return self.startIndex }
+        if index > self.endIndex { return self.endIndex }
+        return index
+    }
+}

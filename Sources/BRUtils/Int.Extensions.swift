@@ -1,6 +1,6 @@
 // =====================================================================================================================
 //
-//  File:       Endianness.swift
+//  File:       Int.Extensions.swift
 //  Project:    BRUtils
 //
 //  Version:    1.0.0
@@ -10,7 +10,7 @@
 //  Website:    http://swiftfire.nl/
 //  Git:        https://github.com/Balancingrock/Swiftfire
 //
-//  Copyright:  (c) 2017-2019 Marinus van der Lugt, All rights reserved.
+//  Copyright:  (c) 2019 Marinus van der Lugt, All rights reserved.
 //
 //  License:    Use or redistribute this code any way you like with the following two provision:
 //
@@ -42,26 +42,21 @@
 import Foundation
 
 
-/// The endianess type
+public extension Int {
 
-public enum Endianness {
-    case big
-    case little
+    
+    /// - Returns: True if the integer is even.
+    
+    var isEven: Bool { return self % 2 == 0 }
+
+    
+    /// - Returns: True if the integer is uneven.
+    
+    var isUneven: Bool { return self % 2 == 1 }
+
+    
+    /// - Returns: True if the integer is a multiple of the given number.
+    
+    func isMultiple(of i: Int) -> Bool { return self % i == 0 }
 }
 
-
-/// The endianness of the local computer
-
-public let machineEndianness: Endianness = {
-    func test(_ ptr: UnsafePointer<UInt16>) -> Endianness {
-        let mptr = UnsafeRawPointer(ptr)
-        let nptr = mptr.assumingMemoryBound(to: UInt8.self)
-        if nptr.pointee == 0 {
-            return .big
-        } else {
-            return .little
-        }
-    }
-    var val: UInt16 = 1
-    return test(&val)
-}()
