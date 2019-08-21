@@ -6,10 +6,6 @@ BRUtils is part of the Swiftfire webserver project.
 
 # Version history
 
-#### 1.0.1
-
-- Added jazzy documentation
-
 #### 1.0.0
 
 - Removed code that is not used by Swiftfire 1.0.0 project.

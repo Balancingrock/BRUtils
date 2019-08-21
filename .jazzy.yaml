@@ -8,5 +8,6 @@ documentation: docs/*.md
 hide_documentation_coverage: true
 xcodebuild_arguments: [-target, BRUtils]
 github_url: https://github.com/Balancingrock/BRUtils
+output: ~/Documents/Websites/swiftfire.nl/projects/brutils/reference
 clean: true
 theme: fullwidth
