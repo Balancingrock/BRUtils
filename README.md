@@ -6,7 +6,7 @@ BRUtils is part of the Swiftfire webserver project.
 
 The [Swiftfire website](http://swiftfire.nl)
 
-The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference.index.html)
+The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference/index.html)
 
 # Version history
 
