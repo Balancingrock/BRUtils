@@ -1,11 +1,12 @@
 # BRUtils document generator jazzy settings
 
-copyright: Copyright 2017-2019 Rien van der Lugt
-author: Rien van der Lugt
+copyright: Copyright © 2017-2019 rien@balancingrock.nl
+author: Balancingrock
+author_url: http://balancingrock.nl
 module: BRUtils
+documentation: docs/*.md
 hide_documentation_coverage: true
 xcodebuild_arguments: [-target, BRUtils]
 github_url: https://github.com/Balancingrock/BRUtils
-output: ~/Documents/Websites/swiftfire.nl/projects/brutils/reference
 clean: true
 theme: fullwidth
