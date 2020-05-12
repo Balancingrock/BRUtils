@@ -10,6 +10,10 @@ The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference/index.htm
 
 # Version history
 
+#### 1.1.0
+
+- Removed FunctionResult, now covered by Swift.Result
+
 #### 1.0.0
 
 - Removed code that is not used by Swiftfire 1.0.0 project.
