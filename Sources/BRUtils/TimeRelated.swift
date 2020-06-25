@@ -74,7 +74,11 @@ public extension timeval {
 
     init(timeInterval: TimeInterval) {
         let sec = Int(timeInterval)
+        #if os(Linux)
+        let usec = Int((timeInterval - Double(sec)) * Double(USEC_PER_SEC))
+        #else
         let usec = Int32((timeInterval - Double(sec)) * Double(USEC_PER_SEC))
+        #endif
         self.init(tv_sec: sec, tv_usec: usec)
     }
 }
