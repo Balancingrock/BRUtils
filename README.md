@@ -10,6 +10,10 @@ The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference/index.htm
 
 # Version history
 
+#### 1.1.1
+
+- Removed the test target
+
 #### 1.1.0
 
 - Removed FunctionResult, now covered by Swift.Result

@@ -12,10 +12,6 @@ let package = Package(
         .target(
             name: "BRUtils",
             dependencies: []
-        ),
-        .testTarget(
-            name: "BRUtilsTests",
-            dependencies: ["BRUtils"]
         )
     ]
 )
