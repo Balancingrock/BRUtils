@@ -3,14 +3,14 @@
 //  File:       TimeRelated.swift
 //  Project:    BRUtils
 //
-//  Version:    1.0.0
+//  Version:    1.1.2
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
 //  Website:    http://swiftfire.nl/
 //  Git:        https://github.com/Balancingrock/Swiftfire
 //
-//  Copyright:  (c) 2017-2019 Marinus van der Lugt, All rights reserved.
+//  Copyright:  (c) 2017-2020 Marinus van der Lugt, All rights reserved.
 //
 //  License:    Use or redistribute this code any way you like with the following two provision:
 //
@@ -36,11 +36,19 @@
 //
 // History
 //
+// 1.1.2 - Added linux compatibility
 // 1.0.0 - Removed older history
 // =====================================================================================================================
 
 import Foundation
 
+#if os(Linux)
+
+let MSEC_PER_SEC = 1000
+let USEC_PER_SEC = 1000 * 1000
+let NSEC_PER_SEC = 1000 * 1000 * 1000
+
+#endif
 
 /// Extends the Darwin defined timespec type.
 
