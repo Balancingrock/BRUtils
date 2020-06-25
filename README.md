@@ -10,6 +10,10 @@ The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference/index.htm
 
 # Version history
 
+#### 1.1.2 & 1.1.3
+
+- Added linux compatibility
+
 #### 1.1.1
 
 - Removed the test target
