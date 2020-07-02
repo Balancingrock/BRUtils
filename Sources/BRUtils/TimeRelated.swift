@@ -3,7 +3,7 @@
 //  File:       TimeRelated.swift
 //  Project:    BRUtils
 //
-//  Version:    1.1.3
+//  Version:    1.1.4
 //
 //  Author:     Marinus van der Lugt
 //  Company:    http://balancingrock.nl
@@ -36,6 +36,7 @@
 //
 // History
 //
+// 1.1.4 - Made defs public
 // 1.1.3 - Added linux compatibility
 // 1.1.2 - Added linux compatibility
 // 1.0.0 - Removed older history
