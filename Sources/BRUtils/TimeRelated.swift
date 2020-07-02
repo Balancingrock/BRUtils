@@ -45,9 +45,9 @@ import Foundation
 
 #if os(Linux)
 
-let MSEC_PER_SEC = 1000
-let USEC_PER_SEC = 1000 * 1000
-let NSEC_PER_SEC = 1000 * 1000 * 1000
+public let MSEC_PER_SEC = 1000
+public let USEC_PER_SEC = 1000 * 1000
+public let NSEC_PER_SEC = 1000 * 1000 * 1000
 
 #endif
 

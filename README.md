@@ -10,7 +10,7 @@ The BRUtils [reference](http://swiftfire.nl/projects/brutils/reference/index.htm
 
 # Version history
 
-#### 1.1.2 & 1.1.3
+#### 1.1.2 & 1.1.3 & 1.1.4
 
 - Added linux compatibility
 
