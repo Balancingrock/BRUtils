@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "BRUtils",
+    platforms: [.macOS(.v10_10), .iOS(.v8)],
     products: [
         .library(name: "BRUtils", targets: ["BRUtils"])
     ],
@@ -13,5 +14,6 @@ let package = Package(
             name: "BRUtils",
             dependencies: []
         )
-    ]
+    ],
+    swiftLanguageVersions: [.v4, .v4_2, .v5]
 )
